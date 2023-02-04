@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carga_colombiana/src/style/theme.dart' as Style;
+import 'package:sweetalertv2/sweetalertv2.dart';
 
 import '../../models/city/data_city_model.dart';
 import '../../models/profile_user_model.dart';
@@ -8,6 +9,8 @@ import '../../repositories/users.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
+
+  bool showProgress = true;
 
   bool isCompania = false;
 
@@ -56,19 +59,21 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Style.Colors.mainColor,
         elevation: 1,
       ),
-      body: Container(
-        margin: EdgeInsets.only(top: 10, right: 15, left: 15),
-        child: Column(
-          children: [
-            Form(
-                key: widget._formKeyRegister,
-                child: Flexible(
-                  child: _getBodyUpdateProfile(),
-                )),
-            _buttonUpdateProfile()
-          ],
-        ),
-      ),
+      body: widget.showProgress
+          ? _showProgressBar()
+          : Container(
+              margin: EdgeInsets.only(top: 10, right: 15, left: 15),
+              child: Column(
+                children: [
+                  Form(
+                      key: widget._formKeyRegister,
+                      child: Flexible(
+                        child: _getBodyUpdateProfile(),
+                      )),
+                  _buttonUpdateProfile()
+                ],
+              ),
+            ),
     );
   }
 
@@ -94,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             )),
         Visibility(
-          visible: widget.isCompania,
+          visible: !widget.isCompania,
           child: Column(
             children: [
               TextField(
@@ -240,10 +245,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _readProfileUser() async {
+    _showProgressBar();
     UserRepository userRepository = new UserRepository();
     ProfileUser oP_ = await userRepository.readProfileUser();
-
     setState(() {
+      widget.showProgress = false;
       widget.oP = oP_;
 
       if (widget.oP != null && widget.oP!.code == 200) {
@@ -326,7 +332,8 @@ class _ProfilePageState extends State<ProfilePage> {
         (widget._editingControllerCodePostal.value.text.isEmpty
             ? 0
             : int.parse(widget._editingControllerCodePostal.value.text)),
-        widget._editingControllerTelefono.value.text);
+        widget._editingControllerTelefono.value.text,
+        widget.isCompania);
 
     if (result.code == 200) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -342,5 +349,19 @@ class _ProfilePageState extends State<ProfilePage> {
     /*setState(() {
       widget.oP = result;
     });*/
+  }
+
+  _showProgressBar() {
+    return AlertDialog(
+      title: Text(
+        "Cargando datos...",
+        style: TextStyle(color: Colors.black54),
+      ),
+      content: Container(
+        height: 70,
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }

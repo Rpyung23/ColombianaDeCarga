@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carga_colombiana/src/models/checkResponse_model.dart';
@@ -357,13 +359,13 @@ class _RegisterPageState extends State<RegisterPage> {
             widget._editingControllerTelefono.value.text,
             widget.isCheckTerminos,
             widget.isCompania);
-
         SweetAlertV2.show(context,
             title: "Registro de Usuario",
             subtitle:
                 oC.code == 200 ? 'Usuario registrado con éxito' : oC.message,
             confirmButtonText: 'Aceptar',
             confirmButtonColor: Style.Colors.mainColor,
+            titleTextAlign: TextAlign.center,
             style: oC.code != 200
                 ? SweetAlertV2Style.error
                 : SweetAlertV2Style.success, onPress: ((isConfirm) {
@@ -389,6 +391,7 @@ class _RegisterPageState extends State<RegisterPage> {
           title: "Registro de Usuario",
           confirmButtonText: 'Reintentar',
           subtitle: e.toString(),
+          titleTextAlign: TextAlign.center,
           style: SweetAlertV2Style.error);
     }
   }

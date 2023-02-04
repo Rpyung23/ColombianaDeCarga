@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'package:carga_colombiana/src/repositories/firebase_messaging.dart';
 import 'package:carga_colombiana/src/repositories/urls.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'
@@ -233,7 +234,8 @@ class UserRepository {
       int locationID,
       String adress,
       int codePostal,
-      String phon) async {
+      String phon,
+      bool isCompany) async {
     try {
       print("locationID : " + locationID.toString());
 
@@ -250,7 +252,8 @@ class UserRepository {
             "locationId": locationID,
             "address": adress,
             "postalCode": codePostal,
-            "phone": phon
+            "phone": phon,
+            "isCompany": isCompany
           }));
       print(reponse.body);
       CheckResponse oU = CheckResponse.fromJson(reponse.body);

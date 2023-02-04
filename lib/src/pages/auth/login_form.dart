@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:carga_colombiana/src/bloc/login_bloc/login_bloc.dart';
@@ -34,6 +35,8 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    showOnBoarding();
   }
 
   @override
@@ -504,5 +507,10 @@ class _LoginFormState extends State<LoginForm> {
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  showOnBoarding() async {
+    final storage = new FlutterSecureStorage();
+    await storage.write(key: 'isOnBoarding', value: '1');
   }
 }

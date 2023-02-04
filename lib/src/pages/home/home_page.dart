@@ -134,9 +134,11 @@ class _HomePageState extends State<HomePage> {
     CheckProfileComplete oC = await oU.checkProfileComplete();
 
     if (oC.code == 200) {
+      /**0 -> INCOMPLETO ........... 1 -> COMPLETO**/
       if (oC.profileComplete == 0) {
         Navigator.of(context).pushNamed("profile");
       }
+      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Error CODE != 200"), backgroundColor: Colors.red));
