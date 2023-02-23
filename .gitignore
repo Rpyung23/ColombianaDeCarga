@@ -10,7 +10,7 @@
 .svn/
 migrate_working_dir/
 # ASSETS FONTS
-/fonts/font_awesome_flutter
+./fonts/font_awesome_flutter
 # IntelliJ related
 *.iml
 *.ipr
