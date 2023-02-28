@@ -141,12 +141,13 @@ class UserRepository {
         body: convert.jsonEncode({"email": email, "password": password}),
         encoding: enconding);
 
+    print(response.body);
     if (response.statusCode == 200) {
-      //print(response.body);
+      print(response.body);
       LoginV2 oL = LoginV2.fromJson(response.body);
       if (oL.code == 200) {
         //print("JSON USER DATA REST");
-        //print(oL.data!.toJson());
+        print(oL.data!.toJson());
         await persistUserId(oL.data!.user!.id.toString());
         await persistData(oL.data!.toJson());
         await persistToken(oL.data!.accessToken!);

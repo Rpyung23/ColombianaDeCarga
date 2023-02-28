@@ -1,3 +1,4 @@
+import 'package:carga_colombiana/src/models/login/dataloginv2.dart';
 import 'package:dio/dio.dart';
 
 import '../models/document_detail_model.dart';
@@ -13,8 +14,13 @@ class DocumentRepository {
     try {
       final userId = await _userRepository.getUserId();
       final token = await _userRepository.getToken();
+      DataLoginv2 oL = await UserRepository.readPersistData('dataResponse');
+
+      final consignee_id = await oL.user!.consigneeId;
+
+      //userIDdebe ser reemplazado consignee_id
       final response = await _dio.get(
-        '$getAllDocumentUrl/$userId/$status',
+        '$getAllDocumentUrl/$consignee_id/$status',
         options: Options(
           contentType: "application/json",
           headers: {"authorization": "Bearer $token"},

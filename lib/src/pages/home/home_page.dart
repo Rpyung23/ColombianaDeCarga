@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
   _getViewPage() {
     switch (widget._tabActive) {
       case 0:
-        return new DocumentPage('1');
+        return new DocumentPage('2');
         break;
       case 1:
         return new TransitoPage('transito');
@@ -138,7 +138,6 @@ class _HomePageState extends State<HomePage> {
       if (oC.profileComplete == 0) {
         Navigator.of(context).pushNamed("profile");
       }
-      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Error CODE != 200"), backgroundColor: Colors.red));
