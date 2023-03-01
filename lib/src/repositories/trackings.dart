@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../models/login/dataloginv2.dart';
 import '../models/prealert_model.dart';
 import '../models/tracking_model.dart';
 import 'urls.dart';
@@ -13,8 +14,12 @@ class TrackingRepository {
     try {
       final userId = await _userRepository.getUserId();
       final token = await _userRepository.getToken();
+      DataLoginv2 oL = await UserRepository.readPersistData('dataResponse');
+
+      final consignee_id = await oL.user!.consigneeId;
+
       final response = await _dio.get(
-        '$getAllPrealertUrl/$userId',
+        '$getAllPrealertUrl/$consignee_id',
         options: Options(
           contentType: "application/json",
           headers: {"authorization": "Bearer $token"},

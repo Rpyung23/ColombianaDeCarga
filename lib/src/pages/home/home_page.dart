@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
         return new TransitoPage('transito');
         break;
       case 2:
-        return new EntregadoPage('3');
+        return new EntregadoPage('7');
         break;
       case 3:
         return TrackingPage();
