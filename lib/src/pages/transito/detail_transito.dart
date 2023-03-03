@@ -6,7 +6,9 @@ import 'package:timelines/timelines.dart';
 import 'package:carga_colombiana/src/style/theme.dart' as Style;
 
 import '../../bloc/document_detail_bloc/document_detail_bloc.dart';
-import '../../models/document_detail_model.dart';
+import '../../models/detalle_document/datum_document.dart';
+import '../../models/detalle_document/details_document.dart';
+import '../../models/tracking.dart';
 import '../../models/tracking_model.dart';
 import '../../utils/icon_from_string_util.dart';
 
@@ -43,14 +45,18 @@ class _DetailTransitoState extends State<DetailTransito> {
         child: BlocBuilder<DocumentDetailBloc, DocumentDetailState>(
           builder: (context, state) {
             if (state is DocumentDetailInitial) {
-              return CircularProgressIndicator();
-            } else if (state is DocumentDetailInitial) {
-              return CircularProgressIndicator();
+              return Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else if (state is DocumentDetailLoaded) {
               return Column(
                 children: [
                   // Text(state.data ?? 'NO hay warehouse'),
-                  _title(state.data.data![state.data.data!.length - 1]),
+                  _title(state.data.data![0]),
                   Divider(height: 05.0),
                   DefaultTabController(
                     length: 2,
@@ -73,7 +79,7 @@ class _DetailTransitoState extends State<DetailTransito> {
     );
   }
 
-  Widget _title(DocumentDetail documentDetail) {
+  Widget _title(DatumDetailDocument documentDetail) {
     return ListTile(
       minLeadingWidth: 50.0,
       leading: getIconsString(
@@ -87,11 +93,11 @@ class _DetailTransitoState extends State<DetailTransito> {
           fontSize: 25.0,
         ),
       ),
-      subtitle: Text('${documentDetail.weight} Lb'),
+      subtitle: Text('${documentDetail.peso} Lb'),
     );
   }
 
-  Widget _tabs(DocumentDetailModel listDocumentDetail) {
+  Widget _tabs(DetailsDocument listDocumentDetail) {
     return Column(
       children: [
         TabBar(
@@ -125,7 +131,7 @@ class _DetailTransitoState extends State<DetailTransito> {
           child: TabBarView(
             children: [
               _timeLine(listDocumentDetail.data!),
-              _trackings(listDocumentDetail.trackings),
+              _trackings(listDocumentDetail.trackings!),
             ],
           ),
         ),
@@ -133,7 +139,7 @@ class _DetailTransitoState extends State<DetailTransito> {
     );
   }
 
-  Widget _timeLine(List<DocumentDetail> listDocumentDetail) {
+  Widget _timeLine(List<DatumDetailDocument> listDocumentDetail) {
     return Timeline.tileBuilder(
       padding: EdgeInsets.all(24.0),
       theme: TimelineThemeData(
@@ -162,7 +168,7 @@ class _DetailTransitoState extends State<DetailTransito> {
                   22.5,
                 ),
                 SizedBox(width: 15.0),
-                Text(listDocumentDetail[index].status!),
+                Text(listDocumentDetail[index].estado!),
               ],
             ),
             subtitle: Container(
@@ -172,12 +178,12 @@ class _DetailTransitoState extends State<DetailTransito> {
                 children: [
                   SizedBox(height: 5.0),
                   Text(
-                    listDocumentDetail[index].dateStatus ?? '',
+                    listDocumentDetail[index].fechaStatus.toString() ?? '',
                     style: TextStyle(fontFamily: 'Arial'),
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    listDocumentDetail[index].descriptionGeneral!,
+                    listDocumentDetail[index].descripcionGeneral!,
                     style: TextStyle(fontFamily: 'Arial'),
                   ),
                 ],
@@ -189,7 +195,7 @@ class _DetailTransitoState extends State<DetailTransito> {
     );
   }
 
-  Widget _trackings(List<Trackings> trackings) {
+  Widget _trackings(List<Tracking> trackings) {
     return ListView.builder(
       itemCount: trackings.length,
       itemBuilder: (_, index) {
@@ -203,7 +209,7 @@ class _DetailTransitoState extends State<DetailTransito> {
                 color: Style.Colors.mainColor,
                 size: 22.5,
               ),
-              title: Text(trackings[index].numTracking ?? ' '),
+              title: Text(trackings[index].codigo ?? ' '),
               subtitle: Container(
                 alignment: Alignment.centerLeft,
                 child: Column(
@@ -216,7 +222,7 @@ class _DetailTransitoState extends State<DetailTransito> {
                     ),
                     SizedBox(height: 10.0),
                     Text(
-                      trackings[index].content!,
+                      trackings[index].contenido!,
                       style: TextStyle(fontFamily: 'Arial'),
                     ),
                   ],

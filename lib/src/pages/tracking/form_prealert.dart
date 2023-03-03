@@ -92,15 +92,17 @@ class _FormPrealertState extends State<FormPrealert> {
   Widget _formprealert() {
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          _inputTracking(),
-          SizedBox(height: 15.0),
-          _inputContent(),
-          SizedBox(height: 15.0),
-          _inputInstruction(),
-          _checkDispatch(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _inputTracking(),
+            SizedBox(height: 15.0),
+            _inputContent(),
+            SizedBox(height: 15.0),
+            _inputInstruction(),
+            _checkDispatch(),
+          ],
+        ),
       ),
     );
   }

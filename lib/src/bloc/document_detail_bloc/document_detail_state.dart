@@ -12,7 +12,7 @@ class DocumentDetailInitial extends DocumentDetailState {}
 class DocumentDetailLoading extends DocumentDetailState {}
 
 class DocumentDetailLoaded extends DocumentDetailState {
-  final DocumentDetailModel data;
+  final DetailsDocument data;
   DocumentDetailLoaded(this.data);
   @override
   List<Object> get props => [data];

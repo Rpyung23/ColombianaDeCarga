@@ -1,10 +1,20 @@
+import 'package:carga_colombiana/src/repositories/firebase_messaging.dart';
 import 'package:dio/dio.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import '../constants.dart';
 import '../models/login/dataloginv2.dart';
-import '../models/prealert_model.dart';
+import '../models/send_prealerta.dart';
 import '../models/tracking_model.dart';
 import 'urls.dart';
 import 'users.dart';
+
+final _enconding = convert.Encoding.getByName('utf-8');
+final _headers = {
+  'Content-Type': 'application/json; charset=UTF-8',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer $tokenApi,'
+};
 
 class TrackingRepository {
   final Dio _dio = Dio();
@@ -36,21 +46,16 @@ class TrackingRepository {
   Future savePrealert(Map<String, dynamic> data) async {
     try {
       final token = await _userRepository.getToken();
-      final response = await _dio.post(
-        savePrealertUrl,
-        data: data,
-        options: Options(
-          contentType: "application/json",
-          headers: {"authorization": "Bearer $token"},
-          validateStatus: (statusCode) {
-            return statusCode! < 500;
-          },
-        ),
-      );
-      return PrealertModel.fromJson(response.data);
+      print("ENVIAR PREALERTA");
+      print(data.toString());
+      final response = await http.post(Uri.parse(savePrealertUrl),
+          body: convert.jsonEncode(data),
+          headers: headers_,
+          encoding: _enconding);
+      return SendPrealert.fromJson(response.body);
     } catch (e) {
       print('Error $e');
-      return e;
+      return SendPrealert(code: 400, message: e.toString(), data: false);
     }
   }
 }

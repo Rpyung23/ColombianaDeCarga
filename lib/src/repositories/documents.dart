@@ -1,7 +1,8 @@
 import 'package:carga_colombiana/src/models/login/dataloginv2.dart';
 import 'package:dio/dio.dart';
-
-import '../models/document_detail_model.dart';
+import 'package:http/http.dart' as http;
+import '../constants.dart';
+import '../models/detalle_document/details_document.dart';
 import '../models/document_model.dart';
 import 'urls.dart';
 import 'users.dart';
@@ -21,10 +22,11 @@ class DocumentRepository {
       //userIDdebe ser reemplazado consignee_id
       final response = await _dio.get(
         '$getAllDocumentUrl/$consignee_id/$status',
-        options: Options(
-          contentType: "application/json",
-          headers: {"authorization": "Bearer $token"},
-        ),
+        options: Options(contentType: "application/json", headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        }),
       );
       return DocumentModel.fromJson(response.data);
     } catch (e) {
@@ -33,21 +35,20 @@ class DocumentRepository {
     }
   }
 
-  Future getDetail(String? numDocument) async {
+  Future<DetailsDocument> getDetail(String? numDocument) async {
     final token = await _userRepository.getToken();
+    print("NUM DOCUMENT : $numDocument");
     try {
-      final response = await _dio.get(
-        '$getDocumentDetailUrl/$numDocument/null',
-        options: Options(
-          contentType: "application/json",
-          headers: {"authorization": "Bearer $token"},
-        ),
+      final response = await http.get(
+        Uri.parse('$getDocumentDetailUrl/$numDocument/null'),
+        headers: {"authorization": "Bearer $token"},
       );
-      // return response.data;
-      return DocumentDetailModel.fromJson(response.data);
+      print(response.body);
+      return DetailsDocument.fromJson(response.body);
     } catch (e) {
       print('Error $e');
-      return e.toString();
+      return new DetailsDocument(
+          code: 400, message: e.toString(), data: [], trackings: []);
       // return "No se encontraron datos / Problema con la conexión";
     }
   }

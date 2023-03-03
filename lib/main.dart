@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'src/bloc/auth_bloc/auth.dart';
 import 'src/bloc/auth_bloc/auth_bloc.dart';
 import 'src/bloc/document_bloc/document_bloc.dart';
+import 'src/bloc/document_detail_bloc/document_detail_bloc.dart';
 import 'src/repositories/notifications_local.dart';
 import 'src/repositories/push_notifications_service.dart';
 import 'src/repositories/users.dart';
@@ -49,7 +50,8 @@ class AppState extends StatelessWidget {
               ..add(AppStarted());
           },
         ),
-        BlocProvider(create: (_) => DocumentBloc())
+        BlocProvider(create: (_) => DocumentBloc()),
+        BlocProvider(create: (_) => DocumentDetailBloc())
       ],
       child: MyApp(userRepository: userRepository),
     );

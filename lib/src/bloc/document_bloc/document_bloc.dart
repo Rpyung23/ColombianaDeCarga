@@ -12,8 +12,8 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
     on<GetAllDocument>((event, emit) async {
       print("TODOS LOS DOCUMENTOS");
       //emit(DocumentLoading());
-      final _listDocuments = await documentRepository.getAll(event.status);
-      emit(DocumentLoaded(_listDocuments));
+      /*final _listDocuments = await documentRepository.getAll(event.status);
+      emit(DocumentLoaded(_listDocuments));*/
       try {
         final _listDocuments = await documentRepository.getAll(event.status);
         emit(DocumentLoaded(_listDocuments));
@@ -24,7 +24,6 @@ class DocumentBloc extends Bloc<DocumentEvent, DocumentState> {
         emit(DocumentError(e.toString()));
       }
     });
-
     on<SearchDocument>((event, emit) async* {
       //yield DocumentLoading();
       try {

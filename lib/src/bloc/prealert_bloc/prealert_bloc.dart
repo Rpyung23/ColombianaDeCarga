@@ -4,9 +4,12 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 // import 'package:carga_colombiana/src/bloc/tracking_bloc/tracking_bloc.dart';
-import 'package:carga_colombiana/src/models/prealert_model.dart';
+import 'package:carga_colombiana/src/models/send_prealerta.dart';
 import 'package:carga_colombiana/src/repositories/trackings.dart';
 import 'package:carga_colombiana/src/repositories/users.dart';
+
+import '../../constants.dart';
+import '../../models/login/dataloginv2.dart';
 // import 'package:carga_colombiana/src/repositories/trackings.dart';
 
 part 'prealert_event.dart';
@@ -15,38 +18,45 @@ part 'prealert_state.dart';
 class PrealertBloc extends Bloc<PrealertEvent, PrealertState> {
   // final TrackingRepository _trackingRepository;
 
-  PrealertBloc() : super(PrealertInitial());
+  PrealertBloc() : super(PrealertInitial()) {
+    on<SavePrealert>((event, emit) async {
+      try {
+        DataLoginv2 loggedUserString =
+            await (UserRepository.readPersistData('dataResponse'));
+        //Map<String, dynamic> _loggedUser = jsonDecode(loggedUserString);
 
-  @override
+        final data = {
+          'tracking': event.tracking,
+          'contenido': event.content,
+          'instruccion': event.instruction,
+          'despachar': event.dispatch,
+          'agencia_id': agencyId,
+          'consignee_id': loggedUserString.user!.consigneeId,
+          'correo': loggedUserString.user!.email,
+        };
+        final SendPrealert response =
+            await (TrackingRepository().savePrealert(data));
+
+        if (response.code != 200) {
+          emit(PrealertError(error: response.message));
+        } else {
+          emit(PrealertSuccess());
+        }
+      } catch (e) {
+        emit(PrealertError(error: e.toString()));
+      }
+    });
+  }
+}
+
+ /* @override
   Stream<PrealertState> mapEventToState(
     PrealertEvent event,
   ) async* {
     if (event is SavePrealert) {
       yield PrealertLoading();
       try {
-        final String loggedUserString =
-            await (UserRepository().getLoggedUser() as FutureOr<String>);
-        Map<String, dynamic> _loggedUser = jsonDecode(loggedUserString);
-        final data = {
-          'tracking': event.tracking,
-          'contenido': event.content,
-          'instruccion': event.instruction,
-          'despachar': event.dispatch,
-          'agencia_id': _loggedUser['agencia_id'],
-          'consignee_id': _loggedUser['id'],
-          'correo': _loggedUser['email'],
-        };
-        final PrealertModel response = await (TrackingRepository()
-            .savePrealert(data) as FutureOr<PrealertModel>);
-        if (response.message != null) {
-          yield PrealertError(error: response.message);
-        } else {
-          yield PrealertSuccess();
-        }
-      } catch (error) {
-        print('ERROR EN BLOC : $error');
-        yield PrealertError(error: error.toString());
-      }
+
     }
   }
-}
+}*/
