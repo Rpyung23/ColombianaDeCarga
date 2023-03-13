@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>4672288616-vk10ct008inuud0l1btcs0ihe8kb2djp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.4672288616-vk10ct008inuud0l1btcs0ihe8kb2djp</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>4672288616-btnhjhmaf1tfmutip5pv8a07nkknj8g8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAeBqkYtzRYkLxb_pMkbtExFoeGFYsLXhE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>4672288616</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.casillero.lockercargacolombia</string>
+	<key>PROJECT_ID</key>
+	<string>carga-colombiana</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carga-colombiana.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:4672288616:ios:36e7c961b899456523c8dd</string>
+	<key>DATABASE_URL</key>
+	<string>https://carga-colombiana-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
