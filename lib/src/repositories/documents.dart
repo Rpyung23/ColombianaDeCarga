@@ -19,15 +19,19 @@ class DocumentRepository {
 
       final consignee_id = await oL.user!.consigneeId;
 
+      var url_ = '$getAllDocumentUrl/$consignee_id/$status';
+      print(url_);
+
       //userIDdebe ser reemplazado consignee_id
       final response = await _dio.get(
-        '$getAllDocumentUrl/$consignee_id/$status',
+        url_,
         options: Options(contentType: "application/json", headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token'
         }),
       );
+      print(response);
       return DocumentModel.fromJson(response.data);
     } catch (e) {
       print('Error $e');

@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  art_sweetalert:
+    dependency: "direct main"
+    description:
+      name: art_sweetalert
+      sha256: "64dd68fc8648197e2b8201b3d28e2e9ec41c0883a05e18be21386ec6435d2b54"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   async:
     dependency: transitive
     description:
@@ -350,14 +358,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  flutter_sequence_animation:
-    dependency: transitive
-    description:
-      name: flutter_sequence_animation
-      sha256: c0e2904f5b0ae8f33c9f6dc2b6860c9a198a30cd9ecc4bc47f03d8a8b454b0c8
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -382,7 +382,7 @@ packages:
       path: "fonts/font_awesome_flutter"
       relative: true
     source: path
-    version: "9.1.0"
+    version: "10.4.0"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -652,14 +652,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  sweetalertv2:
-    dependency: "direct main"
-    description:
-      name: sweetalertv2
-      sha256: "35ddbf6079d388008bfb72881efc343f495c4dc07596c7003b3782508a455f6f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   term_glyph:
     dependency: transitive
     description:

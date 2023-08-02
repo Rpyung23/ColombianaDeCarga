@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carga_colombiana/src/style/theme.dart' as Style;
-import 'package:sweetalertv2/sweetalertv2.dart';
 
 import '../../models/city/data_city_model.dart';
 import '../../models/profile_user_model.dart';

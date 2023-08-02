@@ -63,7 +63,7 @@ class UserRepository {
     StorageSecure.FlutterSecureStorage storage =
         new StorageSecure.FlutterSecureStorage();
     var dataString = await storage.read(key: 'dataResponse');
-    //print(dataString);
+    print(dataString);
     if (dataString == null || dataString.isEmpty) {
       return new DataLoginv2();
     }
@@ -196,7 +196,7 @@ class UserRepository {
     }
   }
 
-  Future<CheckResponse> checkEmail(String email_) async {
+  Future<LoginV2> checkEmail(String email_) async {
     try {
       var data = await http.post(Uri.parse(checkUrlEmail),
           headers: _headers,
@@ -204,10 +204,10 @@ class UserRepository {
           body: convert.jsonEncode({'agencyId': agencyId, 'email': email_}));
       var response = data.body;
       print(response);
-      CheckResponse oC = CheckResponse.fromJson(response);
+      LoginV2 oC = LoginV2.fromJson(response);
       return oC;
     } catch (e) {
-      return new CheckResponse(code: 600, message: e.toString());
+      return new LoginV2(code: 600, message: e.toString());
     }
   }
 

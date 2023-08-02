@@ -1,12 +1,12 @@
 import 'dart:ui';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carga_colombiana/src/models/checkResponse_model.dart';
 import 'package:carga_colombiana/src/models/city/data_city_model.dart';
 import 'package:carga_colombiana/src/repositories/users.dart';
 import 'package:carga_colombiana/src/style/theme.dart' as Style;
-import 'package:sweetalertv2/sweetalertv2.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -342,11 +342,14 @@ class _RegisterPageState extends State<RegisterPage> {
           await oU.checkEmail(widget._editingControllerEmail.value.text);
 
       if (response == 200) {
-        SweetAlertV2.show(context,
-            title: "Registro de Usuario",
-            subtitle: 'Lo sentimos este correo ya se encuentra registrado.',
-            confirmButtonText: 'Aceptar',
-            style: SweetAlertV2Style.error);
+        ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              title: "Registro de Usuario",
+              text: 'Lo sentimos este correo ya se encuentra registrado.',
+              confirmButtonText: 'Aceptar',
+              type: ArtSweetAlertType.danger),
+        );
       } else {
         CheckResponse oC = await UserRepository.registerUsuarioEmail(
             widget._editingControllerEmail.value.text,
@@ -359,40 +362,45 @@ class _RegisterPageState extends State<RegisterPage> {
             widget._editingControllerTelefono.value.text,
             widget.isCheckTerminos,
             widget.isCompania);
-        SweetAlertV2.show(context,
-            title: "Registro de Usuario",
-            subtitle:
-                oC.code == 200 ? 'Usuario registrado con éxito' : oC.message,
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: Style.Colors.mainColor,
-            titleTextAlign: TextAlign.center,
-            style: oC.code != 200
-                ? SweetAlertV2Style.error
-                : SweetAlertV2Style.success, onPress: ((isConfirm) {
-          if (oC.code == 200) {
-            widget.isCheckTerminos = false;
-            widget._editingControllerPrimerNombre.clear();
-            widget._editingControllerSegundoNombre.clear();
-            widget._editingControllerCiudad.clear();
-            widget._editingControllerDireccion.clear();
-            widget._editingControllerCodePostal.clear();
-            widget._editingControllerCelular.clear();
-            widget._editingControllerEmail.clear();
-            widget._editingControllerConfirEmail.clear();
-            widget._editingControllerTelefono.clear();
-            widget._editingControllerDniMit.clear();
-            Navigator.of(context).pop();
-          }
-          return isConfirm;
-        }));
+
+        ArtSweetAlert.show(
+          context: context,
+          artDialogArgs: ArtDialogArgs(
+              title: "Registro de Usuario",
+              text:
+                  oC.code == 200 ? 'Usuario registrado con éxito' : oC.message,
+              confirmButtonText: 'Aceptar',
+              type: oC.code != 200
+                  ? ArtSweetAlertType.danger
+                  : ArtSweetAlertType.success,
+              onConfirm: (isConfirm) {
+                if (oC.code == 200) {
+                  widget.isCheckTerminos = false;
+                  widget._editingControllerPrimerNombre.clear();
+                  widget._editingControllerSegundoNombre.clear();
+                  widget._editingControllerCiudad.clear();
+                  widget._editingControllerDireccion.clear();
+                  widget._editingControllerCodePostal.clear();
+                  widget._editingControllerCelular.clear();
+                  widget._editingControllerEmail.clear();
+                  widget._editingControllerConfirEmail.clear();
+                  widget._editingControllerTelefono.clear();
+                  widget._editingControllerDniMit.clear();
+                  Navigator.of(context).pop();
+                }
+                return isConfirm;
+              }),
+        );
       }
     } catch (e) {
-      SweetAlertV2.show(context,
-          title: "Registro de Usuario",
-          confirmButtonText: 'Reintentar',
-          subtitle: e.toString(),
-          titleTextAlign: TextAlign.center,
-          style: SweetAlertV2Style.error);
+      ArtSweetAlert.show(
+        context: context,
+        artDialogArgs: ArtDialogArgs(
+            title: "Registro de Usuario",
+            confirmButtonText: 'Reintentar',
+            text: e.toString(),
+            type: ArtSweetAlertType.danger),
+      );
     }
   }
 }

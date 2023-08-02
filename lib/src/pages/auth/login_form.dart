@@ -474,7 +474,11 @@ class _LoginFormState extends State<LoginForm> {
       var codeRegister = await userRepository.registerUsuarioSocial(
           oU.user!.email!, oU.user!.uid!, oU.user!.displayName!);
       if (codeRegister.code == 200) {
-        userRepository.persistData(codeRegister.data!.accessToken);
+        await userRepository
+            .persistUserId(codeRegister.data!.user!.id.toString());
+        await userRepository.persistData(codeRegister.data!.toJson());
+        await userRepository.persistToken(codeRegister.data!.accessToken!);
+        /*userRepository.persistData(codeRegister.data!.toJson());*/
         Navigator.of(context).pushNamed('home');
       } else {
         Toast.show(
@@ -488,9 +492,15 @@ class _LoginFormState extends State<LoginForm> {
                 TextStyle(color: Colors.white, fontWeight: FontWeight.w700));
       }
     } else {
-      print("ID USER : " + code.data!.id.toString());
-      userRepository.persistUserId(code.data!.id.toString());
-      userRepository.persistToken(code.accessToken);
+      print("ID USER : " + code.data!.user!.id.toString());
+      /*userRepository.persistUserId(code.data!.id.toString());
+      userRepository.persistToken(code.data!.accessToken);
+      userRepository.persistData(code.data!.toJson());*/
+
+      await userRepository.persistUserId(code.data!.user!.id.toString());
+      await userRepository.persistData(code.data!.toJson());
+      await userRepository.persistToken(code.data!.accessToken!);
+
       Navigator.of(context).pushNamed('home');
     }
 
